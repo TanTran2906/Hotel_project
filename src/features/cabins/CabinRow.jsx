@@ -3,6 +3,9 @@ import { formatCurrency } from "../../utils/helpers";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { useCreateCabin } from "./useCreateCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import CreateCabinForm from "./CreateCabinForm";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 // import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { deleteCabin } from "../../services/apiCabins";
@@ -159,12 +162,38 @@ function CabinRow({ cabin }) {
                     <HiSquare2Stack />
                 </button>
 
-                <button
+                <Modal>
+                    <Modal.Open opens="edit">
+                        <button>
+                            <HiPencil />
+                        </button>
+                    </Modal.Open>
+                    <Modal.Window name="edit">
+                        <CreateCabinForm cabinToEdit={cabin} />
+                    </Modal.Window>
+                </Modal>
+
+                <Modal>
+                    <Modal.Open opens="confirm-delete">
+                        <button>
+                            <HiTrash />
+                        </button>
+                    </Modal.Open>
+                    <Modal.Window name="confirm-delete">
+                        <ConfirmDelete
+                            resourceName="cabin"
+                            disabled={isDeleting}
+                            onConfirm={() => deleteCabin(cabinId)}
+                        />
+                    </Modal.Window>
+                </Modal>
+
+                {/* <button
                     onClick={() => deleteCabin(cabinId)}
                     disabled={isDeleting}
                 >
                     <HiTrash />
-                </button>
+                </button> */}
             </div>
         </TableRow>
     );

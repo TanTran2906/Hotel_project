@@ -6,6 +6,7 @@ import {
     HiOutlineHomeModern,
     HiOutlineUsers,
 } from "react-icons/hi2";
+import { FaFileInvoiceDollar } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const NavList = styled.ul`
@@ -82,9 +83,9 @@ function MainNav() {
                     </StyledNavLink>
                 </li>
                 <li>
-                    <StyledNavLink to="/settings">
-                        <HiOutlineCog6Tooth />
-                        <span>Settings</span>
+                    <StyledNavLink to="/invoices">
+                        <FaFileInvoiceDollar />
+                        <span>Invoices</span>
                     </StyledNavLink>
                 </li>
             </NavList>

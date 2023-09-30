@@ -19,7 +19,7 @@ const Row = styled.div`
 
 //props mặc định khi không định nghĩa type cho Row
 Row.defaultProps = {
-    type: "horizontal",
+    type: "vertical",
 };
 
 export default Row;

@@ -5,6 +5,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 
 import Dashboard from "./pages/Dashboard";
 import Bookings from "./pages/Bookings";
+import Booking from "./pages/Booking";
 import Cabins from "./pages/Cabins";
 import Users from "./pages/Users";
 import Invoices from "./pages/Invoices";
@@ -16,6 +17,7 @@ import AppLayout from "./ui/AppLayout";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Checkin from "./pages/Checkin";
 
 //Tạo thể hiện của QueryClient
 const queryClient = new QueryClient({
@@ -40,6 +42,15 @@ function App() {
                         />
                         <Route path="dashboard" element={<Dashboard />} />
                         <Route path="bookings" element={<Bookings />} />
+                        <Route
+                            path="bookings/:bookingId"
+                            element={<Booking />}
+                        />
+                        <Route
+                            path="checkin/:bookingId"
+                            element={<Checkin />}
+                        />
+
                         <Route path="cabins" element={<Cabins />} />
                         <Route path="users" element={<Users />} />
                         <Route path="invoices" element={<Invoices />} />

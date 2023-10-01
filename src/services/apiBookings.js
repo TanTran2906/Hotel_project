@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
@@ -31,7 +32,7 @@ import supabase from "./supabase";
 //   return data;
 // }
 
-export async function getBookings() {
+export async function getBookings({ filter, sortBy, page }) {
   //Chỉ lấy những booking mà có dịch vụ
   // const { data, error } = await supabase
   //   .from("bookings-services")
@@ -41,7 +42,7 @@ export async function getBookings() {
   //     services(name,price)
   //     `
   //   )
-  const { data, error } = await supabase
+  let query = supabase
     .from("bookings")
     .select(
       `
@@ -49,22 +50,47 @@ export async function getBookings() {
       cabins(name),
       guests(fullName,email),
       services(name,price)
-      `
+      `,
+      { count: "exact" } //Dùng cho phân trang
     )
 
+
+  //FILTER
+  if (filter !== null) query = query[filter.method || "eq"](filter.field, filter.value)
+
+  //SORT 
+  if (sortBy) query = query.order(sortBy.field, { ascending: sortBy.direction === 'asc' })
+
+  //PAGINATION
+  if (page) {
+    //Ví dụ : page = 1 thì sẽ lấy 10 kết quả đầu trong bảng dữ liệu (0-9 theo chỉ mục)
+    const from = (page - 1) * PAGE_SIZE
+    const to = from + PAGE_SIZE - 1
+    query = query.range(from, to)
+  }
+
+  const { data, error, count } = await query
 
   if (error) {
     console.error(error);
     throw new Error("Bookings could not be loaded");
   }
 
-  return data;
+  return { data, count };
 }
 
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*, cabins(*), guests(*)")
+    // .select("*, cabins(*), guests(*)")
+    .select(
+      `
+      *,
+      cabins(*),
+      guests(*),
+      services(*)
+      `
+    )
     .eq("id", id)
     .single();
 

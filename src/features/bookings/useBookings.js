@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { getBookings } from "../../services/apiBookings";
-export function useBookings() {
+export function useBookings({ filter, sortBy, page }) {
     const {
         isLoading,
-        data: bookings,
+        data: { data: bookings, count } = {},
         error,
     } = useQuery({
-        queryKey: ["bookings"],
-        queryFn: getBookings,
+        queryKey: ["bookings", filter, sortBy, page],
+        queryFn: () => getBookings({ filter, sortBy, page }),
     });
-    return { isLoading, error, bookings }
+    return { isLoading, error, bookings, count }
 }
 
 

@@ -32,14 +32,26 @@ import supabase from "./supabase";
 // }
 
 export async function getBookings() {
+  //Chỉ lấy những booking mà có dịch vụ
+  // const { data, error } = await supabase
+  //   .from("bookings-services")
+  //   .select(
+  //     `
+  //     bookings(id, created_at, startDate, endDate , numNights, numGuests, status, totalPrice,cabins(name), guests(fullName,email)),
+  //     services(name,price)
+  //     `
+  //   )
   const { data, error } = await supabase
-    .from("bookings-services")
+    .from("bookings")
     .select(
       `
-      bookings(*, cabins(*), guests(*)),
-      services(*)
+      *,
+      cabins(name),
+      guests(fullName,email),
+      services(name,price)
       `
     )
+
 
   if (error) {
     console.error(error);

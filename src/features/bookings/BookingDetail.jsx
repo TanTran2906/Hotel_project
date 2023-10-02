@@ -33,7 +33,6 @@ function BookingDetail() {
 
     const { bookingId } = useParams();
     const { isLoading, booking } = useBooking({ bookingId });
-    console.log(booking);
 
     const { status, id } = booking;
 

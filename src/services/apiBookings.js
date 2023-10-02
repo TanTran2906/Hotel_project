@@ -171,6 +171,28 @@ export async function updateBooking(id, obj) {
   return data;
 }
 
+// Hàm để cập nhật thông tin dịch vụ cho đặt phòng cụ thể và thêm vào bảng bookings-services
+export async function updateBookingServices(bookingId, serviceData) {
+  const { addBreakfast, addSpa, addFishing, addMountainCLimbing } = serviceData
+  // Tạo một bản ghi mới trong bảng bookings-services
+  const { data, error } = await supabase.from("bookings-services").insert([
+    {
+      bookingId,
+      ...addBreakfast,
+      ...addSpa,
+      ...addFishing,
+      ...addMountainCLimbing
+    },
+  ]);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking services could not be updated");
+  }
+
+  return data;
+}
+
 export async function deleteBooking(id) {
   // REMEMBER RLS POLICIES
   const { data, error } = await supabase.from("bookings").delete().eq("id", id);

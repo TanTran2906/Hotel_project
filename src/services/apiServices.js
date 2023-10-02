@@ -1,11 +1,11 @@
 import supabase from "./supabase";
 
-export async function getSettings() {
-  const { data, error } = await supabase.from("settings").select("*").single();
+export async function getServices() {
+  const { data, error } = await supabase.from("services").select("*");
 
   if (error) {
     console.error(error);
-    throw new Error("Settings could not be loaded");
+    throw new Error("Services could not be loaded");
   }
   return data;
 }

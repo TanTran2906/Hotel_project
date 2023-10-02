@@ -58,7 +58,6 @@ function BookingRow({
         "checked-out": "silver",
     };
     const navigate = useNavigate();
-    console.log(bookingId);
 
     return (
         <Table.Row>

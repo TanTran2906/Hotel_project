@@ -39,6 +39,8 @@ function BookingTable() {
         page,
     });
 
+    console.log(bookings);
+
     //PRE_FETCHING
     const pageCount = Math.ceil(count / PAGE_SIZE);
 
